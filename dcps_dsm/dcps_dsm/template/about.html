@@ -2,7 +2,335 @@
 
 {% block body %}
     
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us | Dhaka College Psychology Society</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12213A;
+    --ink-2:#1B3155;
+    --paper:#F2EFE4;
+    --card:#FBF9F2;
+    --teal:#3E7C74;
+    --teal-dim:#2E5E58;
+    --gold:#D9A441;
+    --rose:#C0707F;
+    --ink-soft:#4B5A78;
+    --line: rgba(18,33,58,0.14);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit; text-decoration:none;}
+  .display{font-family:'Fraunces', serif;}
+  .mono{font-family:'JetBrains Mono', monospace; letter-spacing:0.04em;}
 
+  /* ---------- Top bar ---------- */
+  header{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px 6vw;
+    border-bottom:1px solid var(--line);
+    background:var(--paper);
+    position:sticky; top:0; z-index:20;
+  }
+  .brand{ display:flex; align-items:center; gap:12px; }
+  .brand-mark{
+    width:38px; height:38px; border-radius:50%;
+    background:var(--ink); display:flex; align-items:center; justify-content:center;
+    color:var(--gold); font-family:'Fraunces',serif; font-weight:700; font-size:16px;
+  }
+  .brand-name{ font-size:15px; font-weight:600; }
+  .brand-name span{ display:block; font-size:11px; color:var(--ink-soft); font-weight:400; }
+  nav{ display:flex; gap:28px; font-size:14px; font-weight:500; }
+  nav a{ color:var(--ink-soft); transition:color .2s; }
+  nav a:hover, nav a.active{ color:var(--teal); }
+  @media (max-width:760px){ nav{ display:none; } }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background: #14532D;
+    color: #FFFFFF;
+    padding:90px 6vw 60px;
+    position:relative;
+    overflow:hidden;
+    border-bottom:none;
+  }
+  .hero::after{
+    content:'';
+    position:absolute; right:-80px; top:-80px;
+    width:280px; height:280px; border-radius:50%;
+    background:radial-gradient(circle, rgba(217,164,65,0.18), transparent 70%);
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace; font-size:12px; letter-spacing:0.16em;
+    text-transform:uppercase; color:var(--gold); display:flex; align-items:center; gap:10px; margin-bottom:16px;
+  }
+  .eyebrow::before{ content:''; width:24px; height:1px; background:var(--gold); }
+  .hero h1{ font-size:clamp(2rem,5vw,3.3rem); font-weight:600; max-width:680px; }
+  .hero p{ margin-top:16px; max-width:600px; color:#cfd6e4; font-size:1.05rem; }
+
+  /* ---------- Stats strip ---------- */
+  .stats{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:0;
+    margin-top:48px; border-top:1px solid rgba(242,239,228,0.16);
+    padding-top:30px; max-width:760px;
+  }
+  @media (max-width:700px){ .stats{ grid-template-columns:repeat(2,1fr); row-gap:26px; } }
+  .stat-num{ font-family:'Fraunces',serif; font-size:2rem; color:var(--gold); }
+  .stat-label{ font-size:12px; color:#b9c2d6; margin-top:4px; }
+
+  /* ---------- Layout ---------- */
+  main{ padding:0 6vw; max-width:1180px; margin:0 auto; }
+  section{ padding:80px 0; border-bottom:1px solid var(--line); }
+  section:last-of-type{ border-bottom:none; }
+  h2.section-title{ font-family:'Fraunces',serif; font-size:clamp(1.7rem,3vw,2.3rem); margin-bottom:14px; }
+  p.lede{ max-width:680px; color:var(--ink-soft); font-size:1.02rem; margin-bottom:44px; }
+
+  /* ---------- Mission / Vision ---------- */
+  .mv-grid{ display:grid; grid-template-columns:1fr 1fr; gap:26px; }
+  @media (max-width:800px){ .mv-grid{ grid-template-columns:1fr; } }
+  .mv-card{
+    background:var(--card); border:1px solid var(--line); border-radius:12px;
+    padding:32px; box-shadow:0 8px 24px rgba(18,33,58,0.06);
+  }
+  .mv-card .tag{
+    display:inline-block; font-family:'JetBrains Mono',monospace; font-size:10.5px;
+    letter-spacing:0.1em; padding:4px 10px; border:1px solid var(--teal);
+    color:var(--teal-dim); border-radius:100px; margin-bottom:16px;
+  }
+  .mv-card h3{ font-family:'Fraunces',serif; font-size:1.35rem; margin-bottom:10px; }
+  .mv-card p{ color:var(--ink-soft); font-size:0.98rem; }
+
+  /* ---------- Timeline ---------- */
+  .timeline{ position:relative; padding-left:30px; }
+  .timeline::before{ content:''; position:absolute; left:0; top:6px; bottom:6px; width:2px; background:linear-gradient(var(--teal), var(--rose)); }
+  .t-item{ position:relative; padding-bottom:40px; }
+  .t-item:last-child{ padding-bottom:0; }
+  .t-item::before{
+    content:''; position:absolute; left:-35px; top:4px;
+    width:13px; height:13px; border-radius:50%;
+    background:var(--card); border:2.4px solid var(--teal);
+  }
+  .t-year{ font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--rose); letter-spacing:0.08em; margin-bottom:6px; display:block; }
+  .t-item h4{ font-family:'Fraunces', serif; font-size:1.2rem; font-weight:600; margin-bottom:6px; }
+  .t-item p{ font-size:0.95rem; color:var(--ink-soft); line-height:1.7; max-width:600px; }
+
+  /* ---------- Values ---------- */
+  .value-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:22px; }
+  .value-card{
+    background:var(--card); border:1px solid var(--line); border-radius:12px;
+    padding:26px; transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .value-card:hover{ transform:translateY(-4px); box-shadow:0 14px 30px rgba(18,33,58,0.1); }
+  .value-icon{
+    width:42px; height:42px; border-radius:10px; background:var(--ink);
+    color:var(--gold); display:flex; align-items:center; justify-content:center;
+    font-size:19px; margin-bottom:16px;
+  }
+  .value-card h4{ font-family:'Fraunces',serif; font-size:1.1rem; margin-bottom:8px; }
+  .value-card p{ font-size:0.92rem; color:var(--ink-soft); }
+
+  /* ---------- Leadership ---------- */
+  .lead-grid{ display:grid; grid-template-columns:280px 1fr; gap:40px; align-items:center; }
+  @media (max-width:760px){ .lead-grid{ grid-template-columns:1fr; } }
+  .lead-portrait{
+    width:100%; aspect-ratio:1/1; border-radius:14px;
+    background:linear-gradient(160deg, var(--teal), var(--ink));
+    display:flex; align-items:center; justify-content:center;
+    color:var(--paper); font-family:'Fraunces',serif; font-size:3rem;
+  }
+  .lead-card .role{
+    font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--teal-dim);
+    letter-spacing:0.08em; margin-bottom:6px;
+  }
+  .lead-card h3{ font-family:'Fraunces',serif; font-size:1.7rem; margin-bottom:10px; }
+  .lead-card p{ color:var(--ink-soft); font-size:0.98rem; max-width:560px; }
+  .lead-tags{ display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+  .lead-tag{
+    font-family:'JetBrains Mono',monospace; font-size:11px; padding:6px 12px;
+    border-radius:100px; border:1px solid var(--line); color:var(--ink-soft);
+  }
+
+  /* ---------- CTA ---------- */
+  .cta{
+    background:var(--ink); color:var(--paper); border-radius:16px;
+    padding:56px 6vw; text-align:center; margin:60px 0 90px;
+  }
+  .cta h2{ font-family:'Fraunces',serif; font-size:clamp(1.6rem,3vw,2.2rem); margin-bottom:14px; }
+  .cta p{ color:#cfd6e4; max-width:520px; margin:0 auto 28px; }
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:'JetBrains Mono', monospace; font-size:12.5px; letter-spacing:0.06em;
+    padding:14px 28px; border-radius:6px; background:var(--teal); color:var(--paper);
+    transition:transform .25s, background .25s, color .25s;
+  }
+  .btn:hover{ background:var(--gold); color:var(--ink); transform:translateY(-2px); }
+
+  footer{
+    text-align:center; padding:30px 6vw; font-family:'JetBrains Mono', monospace;
+    font-size:11px; color:var(--ink-soft); border-top:1px solid var(--line);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-mark">DCPS</div>
+    <div class="brand-name">Dhaka College Psychology Society
+      <span>A Skill Hub · DCPS</span>
+    </div>
+  </div>
+ 
+</header>
+
+<section class="hero">
+  <div class="eyebrow">OUR STORY</div>
+  <h1 class="display">The Science of the Mind, for People</h1>
+  <p>Founded in 2024 as a small student initiative, the Dhaka College Psychology Society has grown into
+  an active student organization driving research, leadership development, and mental health advocacy —
+  where science and humanity walk side by side.</p>
+
+  <div class="stats">
+    <div>
+      <div class="stat-num">2024</div>
+      <div class="stat-label">Founded</div>
+    </div>
+    <div>
+      <div class="stat-num">150+</div>
+      <div class="stat-label">Workshop participants</div>
+    </div>
+    <div>
+      <div class="stat-num">3</div>
+      <div class="stat-label">Campuses reached</div>
+    </div>
+    <div>
+      <div class="stat-num">60+</div>
+      <div class="stat-label">Published psychology contents</div>
+    </div>
+  </div>
+</section>
+
+<main>
+
+  <!-- MISSION / VISION -->
+  <section>
+    <h2 class="section-title">Mission &amp; Vision</h2>
+    <p class="lede">We believe psychology isn't just a subject in a textbook — it's a tool for
+    understanding and solving everyday problems. Every initiative we run is guided by that belief.</p>
+
+    <div class="mv-grid">
+      <div class="mv-card">
+        <span class="tag">MISSION</span>
+        <h3>Our Mission</h3>
+        <p>To raise mental health awareness among students through research, training, and
+        community-driven initiatives — and to build a supportive community around the practical
+        application of psychology.</p>
+      </div>
+      <div class="mv-card">
+        <span class="tag">VISION</span>
+        <h3>Our Vision</h3>
+        <p>We envision a Bangladesh where talking about mental health is normal, not stigmatized —
+        and where every student has access to the right support when they need it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HISTORY / TIMELINE -->
+  <section>
+    <h2 class="section-title">Our Journey</h2>
+    <p class="lede">Since its founding, DCPS has grown step by step — from a small student initiative
+    to a nationally recognised organisation.</p>
+
+    <div class="timeline">
+      <div class="t-item">
+        <span class="t-year">2024</span>
+        <h4>Founding</h4>
+        <p>Dhaka College Psychology Society was founded with the goal of spreading psychological
+        literacy and mental health awareness among students.</p>
+      </div>
+      <div class="t-item">
+        <span class="t-year">2024 – 2025</span>
+        <h4>First Research &amp; Training Initiatives</h4>
+        <p>Focus Group Discussions, scale-development research, and the first round of seminars and
+        workshops were organised, reaching 150+ participants.</p>
+      </div>
+      <div class="t-item">
+        <span class="t-year">2025</span>
+        <h4>Best Youth Performing Partner Award</h4>
+        <p>DCPS received this award in recognition of its leadership on the "Peaceweavers" national
+        project, delivered in partnership with Psycoach BD and BRAC.</p>
+      </div>
+      <div class="t-item">
+        <span class="t-year">2025</span>
+        <h4>Awareness Campaign Across 3 Campuses</h4>
+        <p>A 7-day Mental Health Awareness Campaign was carried out across Dhaka College, Eden Mohila
+        College, and Begum Badrunnesa Government Girls' College.</p>
+      </div>
+      <div class="t-item">
+        <span class="t-year">2026</span>
+        <h4>First Mental Health Assessment Campaign</h4>
+        <p>Dhaka College hosted its first full-scale Mental Health Assessment Campaign.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section>
+    <h2 class="section-title">Our Values</h2>
+    <p class="lede">Four core values guide everything we do.</p>
+
+    <div class="value-grid">
+      <div class="value-card">
+        <div class="value-icon">🔬</div>
+        <h4>Research-Driven</h4>
+        <p>Every decision and initiative is grounded in evidence and scientific method.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🤍</div>
+        <h4>Compassionate Advocacy</h4>
+        <p>We lead with empathy and respect whenever we raise awareness about mental health.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🌱</div>
+        <h4>Community-First</h4>
+        <p>We believe in collective effort over individual work — students, faculty, and community
+        working together.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">📈</div>
+        <h4>Continuous Growth</h4>
+        <p>Investing in every member's personal and professional development is our long-term goal.</p>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- CTA -->
+  <div class="cta">
+    <h2 class="display">Join Us</h2>
+    <p>Want to get involved in DCPS's activities, research, or volunteer team? Reach out today.</p>
+    <a href="#contact" class="btn">Get in Touch →</a>
+  </div>
+
+</main>
+
+<footer>© 2026 DHAKA COLLEGE PSYCHOLOGY SOCIETY — ALL RIGHTS RESERVED</footer>
+
+</body>
+</html>
 
 
 {% endblock body %}
