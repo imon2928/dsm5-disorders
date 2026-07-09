@@ -1,0 +1,323 @@
+{% extends "master/base.html" %}
+
+{% block body %}
+
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla&family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --forest:#1B4332; --forest-deep:#102A20; --sage:#74A57F;
+  --sage-soft:#AEC9A8; --paper:#F6F3EA; --paper-line:#E4DEC9;
+  --ink:#20251F; --ink-soft:#52584C; --coral:#C97B5C; --mint:#E9EFE3;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{background:var(--paper); color:var(--ink); font-family:'Hind Siliguri','Inter',sans-serif; min-height:100vh;}
+.ruled-top{height:8px; background:repeating-linear-gradient(90deg,var(--forest) 0 22px,transparent 0 28px); opacity:.85;}
+
+header{background:var(--forest); color:var(--mint); padding:16px 6vw; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:50; border-bottom:3px solid var(--forest-deep);}
+.brand{display:flex; align-items:center; gap:10px; text-decoration:none;}
+.brand img{width:44px; height:44px;}
+.brand-text .site-name{font-family:'Tiro Bangla',serif; font-size:1.1rem; color:#fff;}
+.brand-text .sub{font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; color:var(--sage-soft);}
+.nav-actions{display:flex; gap:10px;}
+.nav-btn{color:var(--mint); text-decoration:none; font-size:.84rem; font-weight:600; display:flex; align-items:center; gap:5px; border:1px solid rgba(255,255,255,.25); padding:7px 16px; border-radius:20px; cursor:pointer; background:transparent; transition:.2s;}
+.nav-btn:hover{background:rgba(255,255,255,.1);}
+
+/* article hero */
+.article-hero{background:var(--forest-deep); padding:52px 6vw 44px; color:#fff;}
+.article-hero-inner{max-width:780px; margin:0 auto;}
+.breadcrumb{font-size:.74rem; color:var(--sage-soft); margin-bottom:16px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+.breadcrumb a{color:var(--sage-soft); text-decoration:none;}
+.breadcrumb a:hover{color:#fff;}
+.content-type-badge{display:inline-block; padding:5px 14px; border-radius:20px; font-size:.72rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; margin-bottom:18px;}
+.badge-neuro{background:#2D6A4F; color:#B7E4C7;}
+.badge-psychological{background:#5C3317; color:#F4C097;}
+.badge-dsm5{background:#1A3A2A; color:#AEC9A8; border:1px solid #3A6B50;}
+.article-title{font-family:'Tiro Bangla',serif; font-size:clamp(1.6rem,3vw,2.4rem); line-height:1.3; margin-bottom:18px; color:#fff;}
+.article-meta{display:flex; align-items:center; gap:20px; font-size:.8rem; color:var(--sage-soft); flex-wrap:wrap;}
+.meta-item{display:flex; align-items:center; gap:5px;}
+
+/* content area */
+.article-wrap{max-width:780px; margin:0 auto; padding:52px 6vw 90px;}
+
+/* loading state */
+.loading{text-align:center; padding:80px 20px;}
+.loading-spinner{width:44px; height:44px; border:3px solid var(--paper-line); border-top-color:var(--forest); border-radius:50%; animation:spin 1s linear infinite; margin:0 auto 20px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading p{color:var(--ink-soft); font-size:.95rem; margin-top:10px;}
+.loading .hint{font-size:.8rem; color:var(--sage); margin-top:8px;}
+
+/* error state */
+.error-box{background:#fff; border:1px solid #f0c4b8; border-radius:4px; padding:24px; color:#8B3A20;}
+
+/* rendered article content */
+#article-content{display:none;}
+#article-content h2{
+  font-family:'Tiro Bangla',serif; font-size:1.45rem; color:var(--forest-deep);
+  margin:36px 0 16px; padding-bottom:10px; border-bottom:1.5px solid var(--paper-line);
+}
+#article-content h3{
+  font-family:'Tiro Bangla',serif; font-size:1.15rem; color:var(--forest);
+  margin:28px 0 12px;
+}
+#article-content p{
+  font-size:1rem; line-height:1.85; color:var(--ink); margin:0 0 18px;
+}
+#article-content ul, #article-content ol{
+  padding-left:22px; margin:0 0 18px;
+}
+#article-content li{
+  font-size:1rem; line-height:1.75; color:var(--ink); margin-bottom:6px;
+}
+#article-content strong{color:var(--forest-deep); font-weight:700;}
+#article-content em{color:var(--coral);}
+#article-content blockquote{
+  border-left:3px solid var(--forest); padding:14px 20px; margin:24px 0;
+  background:#fff; color:var(--ink-soft); font-style:italic;
+}
+#article-content .dsm-criteria{
+  background:#fff; border:1px solid var(--paper-line); border-radius:4px;
+  padding:22px; margin:20px 0;
+}
+#article-content .dsm-criteria h4{
+  font-family:'Tiro Bangla',serif; color:var(--forest); font-size:1rem;
+  margin:0 0 12px; padding-bottom:8px; border-bottom:1px dashed var(--paper-line);
+}
+#article-content .dsm-criteria p{font-size:.92rem; margin-bottom:10px;}
+#article-content .tag-row{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 20px;}
+#article-content .tag{
+  display:inline-block; background:var(--mint); color:var(--forest);
+  font-size:.74rem; font-weight:600; padding:4px 12px; border-radius:20px;
+}
+#article-content hr{border:none; border-top:1px dashed var(--paper-line); margin:30px 0;}
+
+/* related section */
+.related{background:#fff; border-top:1px solid var(--paper-line); padding:40px 6vw;}
+.related-inner{max-width:780px; margin:0 auto;}
+.related h3{font-family:'Tiro Bangla',serif; color:var(--forest-deep); font-size:1.1rem; margin-bottom:20px;}
+.related-cards{display:grid; grid-template-columns:repeat(2,1fr); gap:14px;}
+.related-card{background:var(--paper); border:1px solid var(--paper-line); padding:16px; cursor:pointer; border-radius:4px; transition:.15s;}
+.related-card:hover{border-color:var(--sage); background:var(--mint);}
+.related-card .rc-type{font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--coral); margin-bottom:6px;}
+.related-card .rc-title{font-family:'Tiro Bangla',serif; font-size:.92rem; color:var(--forest-deep); line-height:1.4;}
+</style>
+
+<body>
+
+<div class="article-hero">
+  <div class="article-hero-inner">
+    <div class="breadcrumb">
+      <a href="{% url 'home' %}">DCPS Articles</a>
+      <span>›</span>
+      <a id="bc-cat" href="#">—</a>
+      <span>›</span>
+      <span id="bc-disorder">—</span>
+    </div>
+    <span class="content-type-badge" id="ct-badge">—</span>
+    <h1 class="article-title" id="article-title">Loading...</h1>
+    <div class="article-meta">
+      <span class="meta-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+        <span>Author: {{ article.title }}</span>
+      </span>
+      <span class="meta-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/></svg>
+        <span>DSM-5 Based</span>
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class="article-wrap">
+  <div id="article-content" style="display: block;">
+      {{ article.content|safe }}
+  </div>
+</div>
+
+<div class="article-wrap">
+  <div id="article-content" style="display: block;">
+      {{ article.author|safe }}
+  </div>
+</div>
+
+<div class="related" id="related-section" style="display:none">
+  <div class="related-inner">
+    <h3>Read Other Content on This Disorder</h3>
+    <div class="related-cards" id="related-cards"></div>
+  </div>
+</div>
+
+<script>
+// জ্যাঙ্গো ব্যাকএন্ড ভিউ থেকে ডাইনামিক কুয়েরি রিসিভ করা হচ্ছে
+const catId = "{{ cat_id }}";
+const disorderId = "{{ disorder_id }}";
+const contentType = "{{ content_type }}";
+
+const CAT_NAMES = {
+  'psychological-content':'Psychological Content',
+  'intellectual-disabilities':'Intellectual Disabilities',
+  'communication-disorders':'Communication Disorders',
+  'autism-spectrum':'Autism Spectrum Disorder',
+  'adhd':'Attention Deficit Hyperactivity Disorder (ADHD)',
+  'specific-learning':'Specific Learning Disability',
+  'motor-disorders':'Motor Disorders',
+  'schizophrenia-spectrum':'Schizophrenia Spectrum Disorder',
+  'bipolar-disorders':'Bipolar Disorders',
+  'depressive-disorders':'Depressive Disorders',
+  'anxiety-disorders':'Anxiety Disorders',
+  'ocd':'Obsessive-Compulsive Disorder',
+  'trauma-disorders':'Trauma and Stressor-Related Disorders',
+  'dissociative-disorders':'Dissociative Disorders',
+  'somatic-disorders':'Somatic Symptom Disorders',
+  'eating-disorders':'Eating Disorders',
+  'sleep-disorders':'Sleep Disorders',
+  'personality-disorders':'Personality Disorders',
+  'neurocognitive-disorders':'Neurocognitive Disorders',
+};
+
+const TYPE_LABELS = {
+  neuro: {bn:'Neurological Causes', badge:'badge-neuro', emoji:'🧠'},
+  psychological: {bn:'Psychological Causes', badge:'badge-psychological', emoji:'🧩'},
+  dsm5: {bn:'DSM-5 Diagnosis Criteria', badge:'badge-dsm5', emoji:'📋'},
+};
+
+const DISORDER_NAMES_BN = {
+  'intellectual-disability':'Intellectual Disability (IDD)',
+  'global-developmental-delay':'Global Developmental Delay',
+  'unspecified-intellectual-disability':'Unspecified Intellectual Disability',
+  'language-disorder':'Language Disorder',
+  'speech-sound-disorder':'Speech Sound Disorder',
+  'childhood-onset-fluency':'Childhood Onset Fluency Disorder',
+  'social-communication':'Social Communication Disorder',
+  'unspecified-communication':'Unspecified Communication Disorder',
+  'asd-level1':'ASD Level 1',
+  'asd-level2':'ASD Level 2',
+  'asd-level3':'ASD Level 3',
+  'adhd-inattentive':'ADHD Inattentive Type',
+  'adhd-hyperactive':'ADHD Hyperactive Type',
+  'adhd-combined':'ADHD Combined Type',
+  'adhd-other':'Other ADHD',
+  'dyslexia':'Dyslexia',
+  'dysgraphia':'Dysgraphia',
+  'dyscalculia':'Dyscalculia',
+  'developmental-coordination':'Developmental Coordination Disorder',
+  'stereotypic-movement':'Stereotypic Movement Disorder',
+  'tourettes':"Tourette's Disorder",
+  'persistent-tic':'Persistent Tic Disorder',
+  'provisional-tic':'Provisional Tic Disorder',
+  'schizotypal-pd':'Schizotypal Personality Disorder',
+  'delusional-disorder':'Delusional Disorder',
+  'brief-psychotic':'Brief Psychotic Disorder',
+  'schizophreniform':'Schizophreniform Disorder',
+  'schizophrenia':'Schizophrenia',
+  'schizoaffective':'Schizoaffective Disorder',
+  'bipolar-1':'Bipolar I Disorder',
+  'bipolar-2':'Bipolar II Disorder',
+  'cyclothymic':'Cyclothymic Disorder',
+  'substance-induced-bipolar':'Substance-Induced Bipolar Disorder',
+  'dmdd':'DMDD',
+  'major-depression':'Major Depressive Disorder',
+  'persistent-depressive':'Persistent Depressive Disorder',
+  'pmdd':'PMDD',
+  'substance-induced-depressive':'Substance-Induced Depressive Disorder',
+  'separation-anxiety':'Separation Anxiety Disorder',
+  'selective-mutism':'Selective Mutism',
+  'specific-phobia':'Specific Phobia',
+  'social-anxiety':'Social Anxiety Disorder',
+  'panic-disorder':'Panic Disorder',
+  'agoraphobia':'Agoraphobia',
+  'gad':'Generalized Anxiety Disorder',
+  'ocd':'OCD',
+  'body-dysmorphic':'Body Dysmorphic Disorder',
+  'hoarding':'Hoarding Disorder',
+  'trichotillomania':'Trichotillomania',
+  'excoriation':'Excoriation Disorder',
+  'reactive-attachment':'Reactive Attachment Disorder',
+  'disinhibited-social':'Disinhibited Social Engagement Disorder',
+  'ptsd':'PTSD',
+  'acute-stress':'Acute Stress Disorder',
+  'adjustment-disorders':'Adjustment Disorders',
+  'did':'DID',
+  'dissociative-amnesia':'Dissociative Amnesia',
+  'depersonalization':'Depersonalization Disorder',
+  'somatic-symptom':'Somatic Symptom Disorder',
+  'illness-anxiety':'Illness Anxiety Disorder',
+  'conversion-disorder':'Conversion Disorder',
+  'factitious-disorder':'Factitious Disorder',
+  'pica':'Pica',
+  'rumination':'Rumination Disorder',
+  'arfid':'ARFID',
+  'anorexia-nervosa':'Anorexia Nervosa',
+  'bulimia-nervosa':'Bulimia Nervosa',
+  'binge-eating':'Binge Eating Disorder',
+  'insomnia':'Insomnia Disorder',
+  'hypersomnolence':'Hypersomnolence Disorder',
+  'narcolepsy':'Narcolepsy',
+  'circadian-rhythm':'Circadian Rhythm Disorder',
+  'nightmare-disorder':'Nightmare Disorder',
+  'rem-sleep':'REM Sleep Behavior Disorder',
+  'restless-legs':'Restless Legs Syndrome',
+  'paranoid-pd':'Paranoid Personality Disorder',
+  'schizoid-pd':'Schizoid Personality Disorder',
+  'antisocial-pd':'Antisocial Personality Disorder',
+  'borderline-pd':'Borderline Personality Disorder',
+  'histrionic-pd':'Histrionic Personality Disorder',
+  'narcissistic-pd':'Narcissistic Personality Disorder',
+  'avoidant-pd':'Avoidant Personality Disorder',
+  'dependent-pd':'Dependent Personality Disorder',
+  'ocpd':'OCPD',
+  'delirium':'Delirium',
+  'alzheimers-ncd':"Alzheimer's NCD",
+  'vascular-ncd':'Vascular NCD',
+  'lewy-body-ncd':'Lewy Body NCD',
+  'frontotemporal-ncd':'Frontal/Temporal NCD',
+  'tbi-ncd':'TBI  NCD',
+  'parkinsons-ncd':"Parkinson's NCD",
+  'classical-conditioning':'classical-conditioning',
+  'operant-conditioning':'operant-conditioning',
+  'cognitive-dissonance':'cognitive-dissonance',
+  'defense-mechanisms':'defense-mechanisms',
+  'maslow-hierarchy':"maslow-hierarchy",
+};
+
+const disorderBn = DISORDER_NAMES_BN[disorderId] || disorderId;
+const catBn = CAT_NAMES[catId] || catId;
+const typeInfo = TYPE_LABELS[contentType] || TYPE_LABELS.neuro;
+
+// UI Setup
+document.title = `${disorderBn} — ${typeInfo.bn} | DCPS Articles`;
+document.getElementById('bc-cat').textContent = catBn;
+document.getElementById('bc-cat').href = `/category/?cat=${catId}`;
+document.getElementById('bc-disorder').textContent = disorderBn;
+
+// জ্যাঙ্গো ব্যাকএন্ড থেকে কন্টেন্ট বা টাইটেল আসলে সেটি দেখাবে, না আসলে জাভাস্ক্রিপ্টের ডিফল্ট নাম দেখাবে
+{% if article.title and article.title != "কন্টেন্ট পাওয়া যায়নি" %}
+  document.getElementById('article-title').textContent = "{{ article.title }}";
+{% else %}
+  document.getElementById('article-title').textContent = `${disorderBn} — ${typeInfo.bn}`;
+{% endif %}
+
+const badge = document.getElementById('ct-badge');
+badge.textContent = typeInfo.emoji + ' ' + typeInfo.bn;
+badge.className = 'content-type-badge ' + typeInfo.badge;
+
+function buildRelated(){
+  const types = ['neuro','psychological','dsm5'];
+  const labels = {neuro:'Neurological Causes',psychological:'Psychological Causes',dsm5:'DSM-5 Criteria'};
+  const sec = document.getElementById('related-section');
+  const grid = document.getElementById('related-cards');
+  grid.innerHTML = ''; // Clear prior entries
+  types.filter(t=>t!==contentType).forEach(t=>{
+    const card = document.createElement('div');
+    card.className='related-card';
+    card.innerHTML=`<div class="rc-type">${labels[t]}</div><div class="rc-title">${disorderBn} — ${labels[t]}</div>`;
+    card.onclick=()=>window.open(`/article/?cat=${catId}&disorder=${disorderId}&type=${t}`,'_blank');
+    grid.appendChild(card);
+  });
+  sec.style.display='block';
+}
+
+buildRelated();
+
+</script>
+</body>
+{% endblock body %}

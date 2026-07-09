@@ -1,0 +1,628 @@
+{% extends 'master/base.html' %}
+
+{% block body %}
+
+<head>
+
+    <title>Category</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Tiro+Bangla&family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --forest: #1B4332;
+            --forest-deep: #102A20;
+            --sage: #74A57F;
+            --sage-soft: #AEC9A8;
+            --paper: #F6F3EA;
+            --paper-line: #E4DEC9;
+            --ink: #20251F;
+            --ink-soft: #52584C;
+            --coral: #C97B5C;
+            --mint: #E9EFE3;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--paper);
+            color: var(--ink);
+            font-family: 'Hind Siliguri', 'Inter', sans-serif;
+        }
+
+        .ruled-top {
+            height: 8px;
+            background: repeating-linear-gradient(90deg, var(--forest) 0 22px, transparent 0 28px);
+            opacity: .85;
+        }
+
+        header {
+            background: var(--forest);
+            color: var(--mint);
+            padding: 16px 6vw;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .brand img {
+            width: 44px;
+            height: 44px;
+        }
+
+        .brand-text .site-name {
+            font-family: 'Tiro Bangla', serif;
+            font-size: 1.1rem;
+            color: #fff;
+        }
+
+        .brand-text .sub {
+            font-size: .62rem;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--sage-soft);
+        }
+
+        .back-btn {
+            color: var(--mint);
+            text-decoration: none;
+            font-size: .88rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid rgba(255, 255, 255, .25);
+            padding: 8px 18px;
+            border-radius: 20px;
+            transition: .2s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, .1);
+        }
+
+        .hero {
+            background: var(--mint);
+            padding: 60px 6vw 50px;
+            border-bottom: 1px solid var(--paper-line);
+        }
+
+        .hero-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .breadcrumb {
+            font-size: .76rem;
+            color: var(--ink-soft);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .breadcrumb a {
+            color: var(--forest);
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            color: var(--ink-soft);
+        }
+
+        .cat-headline {
+            font-family: 'Tiro Bangla', serif;
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            color: var(--forest-deep);
+            line-height: 1.25;
+            margin-bottom: 12px;
+        }
+
+        .cat-sub {
+            color: var(--ink-soft);
+            font-size: 1rem;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+
+        .dsm-badge {
+            display: inline-block;
+            background: var(--forest);
+            color: #fff;
+            font-size: .7rem;
+            font-weight: 600;
+            letter-spacing: .1em;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-top: 18px;
+            text-transform: uppercase;
+        }
+
+        main {
+            padding: 60px 6vw 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .disorders-heading {
+            font-family: 'Tiro Bangla', serif;
+            font-size: 1.2rem;
+            color: var(--forest);
+            margin-bottom: 28px;
+            padding-bottom: 14px;
+            border-bottom: 2px solid var(--paper-line);
+        }
+
+        .disorders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .disorder-card {
+            background: #fff;
+            border: 1px solid var(--paper-line);
+            border-radius: 4px;
+            overflow: hidden;
+            transition: .2s;
+            cursor: pointer;
+        }
+
+        .disorder-card:hover {
+            border-color: var(--sage);
+            box-shadow: 0 8px 24px rgba(27, 67, 50, .09);
+            transform: translateY(-2px);
+        }
+
+        .disorder-card-header {
+            background: var(--forest);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .disorder-card-header h3 {
+            font-family: 'Tiro Bangla', serif;
+            font-size: 1rem;
+            color: #fff;
+            margin: 0;
+        }
+
+        .disorder-num {
+            font-size: .72rem;
+            color: var(--sage-soft);
+            font-weight: 600;
+        }
+
+        .disorder-card-body {
+            padding: 0;
+        }
+
+        .content-type {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            border-bottom: 1px dashed var(--paper-line);
+            cursor: pointer;
+            transition: .15s;
+        }
+
+        .content-type:last-child {
+            border-bottom: none;
+        }
+
+        .content-type:hover {
+            background: var(--mint);
+        }
+
+        .ct-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            flex: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ct-icon.neuro {
+            background: #E8F4F0;
+        }
+
+        .ct-icon.psych {
+            background: #FDF0E8;
+        }
+
+        .ct-icon.dsm {
+            background: #EEF3E8;
+        }
+
+        .ct-icon svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .ct-label {
+            flex: 1;
+        }
+
+        .ct-label strong {
+            display: block;
+            font-size: .88rem;
+            color: var(--forest-deep);
+            font-weight: 700;
+        }
+
+        .ct-label span {
+            font-size: .74rem;
+            color: var(--ink-soft);
+        }
+
+        .ct-arrow {
+            color: var(--sage);
+            font-size: 1rem;
+        }
+
+        footer-bar {
+            display: block;
+            text-align: center;
+            padding: 28px;
+            font-size: .8rem;
+            color: var(--ink-soft);
+            border-top: 1px solid var(--paper-line);
+            margin-top: 40px;
+        }
+
+        @media(max-width:640px) {
+            .disorders-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="breadcrumb">
+                <a href="{% url 'home' %}">DCPS Articles</a>
+                <span>›</span>
+                <span id="breadcrumb-cat">Content Type</span>
+            </div>
+            <h1 class="cat-headline" id="cat-title">Loading...</h1>
+            <p class="cat-sub" id="cat-desc"></p>
+            <span class="dsm-badge">According to DSM-5</span>
+        </div>
+    </section>
+
+    <main>
+        <p class="disorders-heading" id="disorders-heading">Disorders — Click on one to read the content</p>
+        <div class="disorders-grid" id="disorders-grid"></div>
+    </main>
+
+    <footer-bar>© Dhaka College Psychology Society &nbsp;|&nbsp; DCPS Articles</footer-bar>
+
+    <script>
+        const DSM5 = {
+            'psychological-content': {
+                bn: 'সাইকোলজিকাল কন্টেন্ট',
+                en: 'Psychological Content',
+                desc: 'মনোবিজ্ঞানের মৌলিক ঘটনাবলী, তত্ত্ব ও ধারণাসমূহ',
+                disorders: [
+                    { id: 'classical-conditioning', bn: 'ক্লাসিকাল কন্ডিশনিং', en: 'Classical Conditioning' },
+                    { id: 'operant-conditioning', bn: 'অপারেন্ট কন্ডিশনিং', en: 'Operant Conditioning' },
+                    { id: 'cognitive-dissonance', bn: 'কগনিটিভ ডিসোনেন্স', en: 'Cognitive Dissonance' },
+                    { id: 'defense-mechanisms', bn: 'প্রতিরক্ষামূলক প্রক্রিয়া', en: 'Defense Mechanisms' },
+                    { id: 'maslow-hierarchy', bn: 'মাসলোর চাহিদার ক্রম', en: "Maslow's Hierarchy of Needs" },
+                ]
+            },
+            'intellectual-disabilities': {
+                bn: 'বুদ্ধিবৃত্তিক প্রতিবন্ধকতা',
+                en: 'Intellectual Disabilities',
+                desc: 'DSM-5 অনুযায়ী বুদ্ধিবৃত্তিক বিকাশজনিত ব্যাধিসমূহ',
+                disorders: [
+                    { id: 'intellectual-disability', bn: 'বুদ্ধিবৃত্তিক অক্ষমতা (IDD)', en: 'Intellectual Disability (IDD)' },
+                    { id: 'global-developmental-delay', bn: 'বৈশ্বিক বিকাশগত বিলম্ব', en: 'Global Developmental Delay' },
+                    { id: 'unspecified-intellectual-disability', bn: 'অনির্দিষ্ট বুদ্ধিবৃত্তিক অক্ষমতা', en: 'Unspecified Intellectual Disability' },
+                ]
+            },
+            'communication-disorders': {
+                bn: 'যোগাযোগজনিত ব্যাধি',
+                en: 'Communication Disorders',
+                desc: 'বাক, ভাষা ও যোগাযোগ সংক্রান্ত DSM-5 ব্যাধিসমূহ',
+                disorders: [
+                    { id: 'language-disorder', bn: 'ভাষাগত ব্যাধি', en: 'Language Disorder' },
+                    { id: 'speech-sound-disorder', bn: 'বাক ধ্বনিগত ব্যাধি', en: 'Speech Sound Disorder' },
+                    { id: 'childhood-onset-fluency', bn: 'শৈশব-শুরু ফ্লুয়েন্সি ব্যাধি (তোতলামি)', en: 'Childhood-Onset Fluency Disorder (Stuttering)' },
+                    { id: 'social-communication', bn: 'সামাজিক যোগাযোগ ব্যাধি', en: 'Social (Pragmatic) Communication Disorder' },
+                    { id: 'unspecified-communication', bn: 'অনির্দিষ্ট যোগাযোগ ব্যাধি', en: 'Unspecified Communication Disorder' },
+                ]
+            },
+            'autism-spectrum': {
+                bn: 'অটিজম স্পেকট্রাম ডিসঅর্ডার',
+                en: 'Autism Spectrum Disorder',
+                desc: 'সামাজিক যোগাযোগ ও আচরণগত বৈশিষ্ট্যের বর্ণালী',
+                disorders: [
+                    { id: 'asd-level1', bn: 'ASD — মাত্রা ১ (সামান্য সহায়তা প্রয়োজন)', en: 'ASD Level 1 — Requiring Support' },
+                    { id: 'asd-level2', bn: 'ASD — মাত্রা ২ (উল্লেখযোগ্য সহায়তা প্রয়োজন)', en: 'ASD Level 2 — Requiring Substantial Support' },
+                    { id: 'asd-level3', bn: 'ASD — মাত্রা ৩ (অত্যন্ত সহায়তা প্রয়োজন)', en: 'ASD Level 3 — Requiring Very Substantial Support' },
+                ]
+            },
+            'adhd': {
+                bn: 'মনোযোগ ঘাটতি ও অতিসক্রিয়তা (ADHD)',
+                en: 'Attention-Deficit/Hyperactivity Disorder',
+                desc: 'মনোযোগ, আবেগ নিয়ন্ত্রণ ও সক্রিয়তা সংক্রান্ত ব্যাধি',
+                disorders: [
+                    { id: 'adhd-inattentive', bn: 'ADHD — মনোযোগহীনতা প্রধান', en: 'ADHD, Predominantly Inattentive' },
+                    { id: 'adhd-hyperactive', bn: 'ADHD — অতিসক্রিয়তা/আবেগপ্রবণতা প্রধান', en: 'ADHD, Predominantly Hyperactive-Impulsive' },
+                    { id: 'adhd-combined', bn: 'ADHD — মিশ্র উপস্থাপনা', en: 'ADHD, Combined Presentation' },
+                    { id: 'adhd-other', bn: 'অন্যান্য নির্দিষ্ট ADHD', en: 'Other Specified ADHD' },
+                ]
+            },
+            'specific-learning': {
+                bn: 'নির্দিষ্ট শেখার ব্যাধি',
+                en: 'Specific Learning Disorder',
+                desc: 'পঠন, লিখন ও গণিতের নির্দিষ্ট দক্ষতায় সমস্যা',
+                disorders: [
+                    { id: 'dyslexia', bn: 'ডিসলেক্সিয়া (পঠনজনিত সমস্যা)', en: 'SLD with Impairment in Reading (Dyslexia)' },
+                    { id: 'dysgraphia', bn: 'ডিসগ্রাফিয়া (লিখনজনিত সমস্যা)', en: 'SLD with Impairment in Written Expression (Dysgraphia)' },
+                    { id: 'dyscalculia', bn: 'ডিসক্যালকুলিয়া (গণিতজনিত সমস্যা)', en: 'SLD with Impairment in Mathematics (Dyscalculia)' },
+                ]
+            },
+            'motor-disorders': {
+                bn: 'মোটর ডিসঅর্ডার',
+                en: 'Motor Disorders',
+                desc: 'চলাচল, সমন্বয় ও টিক সংক্রান্ত ব্যাধিসমূহ',
+                disorders: [
+                    { id: 'developmental-coordination', bn: 'বিকাশমূলক সমন্বয় ব্যাধি (DCD)', en: 'Developmental Coordination Disorder' },
+                    { id: 'stereotypic-movement', bn: 'ছকবাঁধা গতি ব্যাধি', en: 'Stereotypic Movement Disorder' },
+                    { id: 'tourettes', bn: "টুরেট'স ডিসঅর্ডার", en: "Tourette's Disorder" },
+                    { id: 'persistent-tic', bn: 'স্থায়ী মোটর বা ভোকাল টিক ব্যাধি', en: 'Persistent Motor or Vocal Tic Disorder' },
+                    { id: 'provisional-tic', bn: 'অস্থায়ী টিক ব্যাধি', en: 'Provisional Tic Disorder' },
+                ]
+            },
+            'schizophrenia-spectrum': {
+                bn: 'সিজোফ্রেনিয়া স্পেকট্রাম ও অন্যান্য সাইকোটিক ব্যাধি',
+                en: 'Schizophrenia Spectrum & Other Psychotic Disorders',
+                desc: 'বাস্তবতার উপলব্ধিতে গুরুতর ব্যাঘাত সৃষ্টিকারী ব্যাধিসমূহ',
+                disorders: [
+                    { id: 'schizotypal-pd', bn: 'স্কিজোটাইপাল পার্সোনালিটি ডিসঅর্ডার', en: 'Schizotypal Personality Disorder' },
+                    { id: 'delusional-disorder', bn: 'বিভ্রান্তিমূলক ব্যাধি', en: 'Delusional Disorder' },
+                    { id: 'brief-psychotic', bn: 'সংক্ষিপ্ত সাইকোটিক ব্যাধি', en: 'Brief Psychotic Disorder' },
+                    { id: 'schizophreniform', bn: 'স্কিজোফ্রেনিফর্ম ডিসঅর্ডার', en: 'Schizophreniform Disorder' },
+                    { id: 'schizophrenia', bn: 'সিজোফ্রেনিয়া', en: 'Schizophrenia' },
+                    { id: 'schizoaffective', bn: 'স্কিজোঅ্যাফেক্টিভ ডিসঅর্ডার', en: 'Schizoaffective Disorder' },
+                ]
+            },
+            'bipolar-disorders': {
+                bn: 'বাইপোলার ও সংশ্লিষ্ট ব্যাধি',
+                en: 'Bipolar and Related Disorders',
+                desc: 'মুড সুইং, ম্যানিয়া ও ডিপ্রেশনের পরিবর্তনশীল অবস্থা',
+                disorders: [
+                    { id: 'bipolar-1', bn: 'বাইপোলার ডিসঅর্ডার I', en: 'Bipolar I Disorder' },
+                    { id: 'bipolar-2', bn: 'বাইপোলার ডিসঅর্ডার II', en: 'Bipolar II Disorder' },
+                    { id: 'cyclothymic', bn: 'সাইক্লোথাইমিক ডিসঅর্ডার', en: 'Cyclothymic Disorder' },
+                    { id: 'substance-induced-bipolar', bn: 'পদার্থ-প্ররোচিত বাইপোলার ব্যাধি', en: 'Substance/Medication-Induced Bipolar Disorder' },
+                ]
+            },
+            'depressive-disorders': {
+                bn: 'বিষণ্নতাজনিত ব্যাধি',
+                en: 'Depressive Disorders',
+                desc: 'দীর্ঘস্থায়ী দুঃখ, হতাশা ও মেজাজ পরিবর্তনের ব্যাধিসমূহ',
+                disorders: [
+                    { id: 'dmdd', bn: 'বিঘ্নকারী মেজাজ ডিসরেগুলেশন ডিসঅর্ডার', en: 'Disruptive Mood Dysregulation Disorder (DMDD)' },
+                    { id: 'major-depression', bn: 'মেজর ডিপ্রেসিভ ডিসঅর্ডার (MDD)', en: 'Major Depressive Disorder (MDD)' },
+                    { id: 'persistent-depressive', bn: 'দীর্ঘস্থায়ী বিষণ্নতা ব্যাধি (ডিসথাইমিয়া)', en: 'Persistent Depressive Disorder (Dysthymia)' },
+                    { id: 'pmdd', bn: 'প্রিমেনস্ট্রুয়াল ডিসফোরিক ডিসঅর্ডার (PMDD)', en: 'Premenstrual Dysphoric Disorder' },
+                    { id: 'substance-induced-depressive', bn: 'পদার্থ-প্ররোচিত বিষণ্নতাজনিত ব্যাধি', en: 'Substance/Medication-Induced Depressive Disorder' },
+                ]
+            },
+            'anxiety-disorders': {
+                bn: 'উদ্বেগজনিত ব্যাধি',
+                en: 'Anxiety Disorders',
+                desc: 'অতিরিক্ত ভয়, উদ্বেগ ও আতঙ্কের ব্যাধিসমূহ',
+                disorders: [
+                    { id: 'separation-anxiety', bn: 'বিচ্ছেদ উদ্বেগ ব্যাধি', en: 'Separation Anxiety Disorder' },
+                    { id: 'selective-mutism', bn: 'নির্বাচনী মৌনতা', en: 'Selective Mutism' },
+                    { id: 'specific-phobia', bn: 'নির্দিষ্ট ফোবিয়া', en: 'Specific Phobia' },
+                    { id: 'social-anxiety', bn: 'সামাজিক উদ্বেগ ব্যাধি (সোশ্যাল ফোবিয়া)', en: 'Social Anxiety Disorder' },
+                    { id: 'panic-disorder', bn: 'প্যানিক ডিসঅর্ডার', en: 'Panic Disorder' },
+                    { id: 'agoraphobia', bn: 'অ্যাগোরাফোবিয়া', en: 'Agoraphobia' },
+                    { id: 'gad', bn: 'সাধারণীকৃত উদ্বেগ ব্যাধি (GAD)', en: 'Generalized Anxiety Disorder (GAD)' },
+                ]
+            },
+            'ocd': {
+                bn: 'অবসেসিভ-কম্পালসিভ ও সংশ্লিষ্ট ব্যাধি',
+                en: 'Obsessive-Compulsive and Related Disorders',
+                desc: 'আবেশ, বাধ্যতামূলক আচরণ ও পুনরাবৃত্তিমূলক ক্রিয়া',
+                disorders: [
+                    { id: 'ocd', bn: 'অবসেসিভ-কম্পালসিভ ডিসঅর্ডার (OCD)', en: 'Obsessive-Compulsive Disorder (OCD)' },
+                    { id: 'body-dysmorphic', bn: 'বডি ডিসমর্ফিক ডিসঅর্ডার', en: 'Body Dysmorphic Disorder' },
+                    { id: 'hoarding', bn: 'হোর্ডিং ডিসঅর্ডার', en: 'Hoarding Disorder' },
+                    { id: 'trichotillomania', bn: 'ট্রাইকোটিলোম্যানিয়া (চুল টানা)', en: 'Trichotillomania (Hair-Pulling Disorder)' },
+                    { id: 'excoriation', bn: 'এক্সকোরিয়েশন (ত্বক খোঁটা)', en: 'Excoriation (Skin-Picking) Disorder' },
+                ]
+            },
+            'trauma-disorders': {
+                bn: 'ট্রমা ও স্ট্রেসজনিত ব্যাধি',
+                en: 'Trauma- and Stressor-Related Disorders',
+                desc: 'আঘাতমূলক ঘটনা ও তীব্র মানসিক চাপের প্রতিক্রিয়া',
+                disorders: [
+                    { id: 'reactive-attachment', bn: 'রিঅ্যাক্টিভ অ্যাটাচমেন্ট ডিসঅর্ডার', en: 'Reactive Attachment Disorder' },
+                    { id: 'disinhibited-social', bn: 'ডিসইনহিবিটেড সোশ্যাল এনগেজমেন্ট ডিসঅর্ডার', en: 'Disinhibited Social Engagement Disorder' },
+                    { id: 'ptsd', bn: 'পোস্ট-ট্রমাটিক স্ট্রেস ডিসঅর্ডার (PTSD)', en: 'Post-Traumatic Stress Disorder (PTSD)' },
+                    { id: 'acute-stress', bn: 'অ্যাকিউট স্ট্রেস ডিসঅর্ডার', en: 'Acute Stress Disorder' },
+                    { id: 'adjustment-disorders', bn: 'অ্যাডজাস্টমেন্ট ডিসঅর্ডার', en: 'Adjustment Disorders' },
+                ]
+            },
+            'dissociative-disorders': {
+                bn: 'ডিসোসিয়েটিভ ডিসঅর্ডার',
+                en: 'Dissociative Disorders',
+                desc: 'পরিচয়, স্মৃতি ও সচেতনতার ব্যাঘাত',
+                disorders: [
+                    { id: 'did', bn: 'ডিসোসিয়েটিভ আইডেন্টিটি ডিসঅর্ডার (DID)', en: 'Dissociative Identity Disorder (DID)' },
+                    { id: 'dissociative-amnesia', bn: 'ডিসোসিয়েটিভ অ্যামনেসিয়া', en: 'Dissociative Amnesia' },
+                    { id: 'depersonalization', bn: 'ডিপার্সোনালাইজেশন/ডিরিয়েলাইজেশন ডিসঅর্ডার', en: 'Depersonalization/Derealization Disorder' },
+                ]
+            },
+            'somatic-disorders': {
+                bn: 'সোমাটিক উপসর্গ ও সংশ্লিষ্ট ব্যাধি',
+                en: 'Somatic Symptom and Related Disorders',
+                desc: 'শারীরিক উপসর্গের সাথে মনস্তাত্ত্বিক উপাদান',
+                disorders: [
+                    { id: 'somatic-symptom', bn: 'সোমাটিক সিম্পটম ডিসঅর্ডার', en: 'Somatic Symptom Disorder' },
+                    { id: 'illness-anxiety', bn: 'ইলনেস অ্যাংজাইটি ডিসঅর্ডার (হাইপোকন্ড্রিয়া)', en: 'Illness Anxiety Disorder' },
+                    { id: 'conversion-disorder', bn: 'কনভার্সন ডিসঅর্ডার (ফাংশনাল নিউরোলজিক্যাল)', en: 'Conversion Disorder (Functional Neurological Symptom Disorder)' },
+                    { id: 'factitious-disorder', bn: 'ফ্যাক্টিশাস ডিসঅর্ডার', en: 'Factitious Disorder' },
+                ]
+            },
+            'eating-disorders': {
+                bn: 'খাদ্যগ্রহণ ও আহারজনিত ব্যাধি',
+                en: 'Feeding and Eating Disorders',
+                desc: 'খাদ্যাভ্যাস, শারীরিক ভাবমূর্তি ও পুষ্টি সংক্রান্ত ব্যাধি',
+                disorders: [
+                    { id: 'pica', bn: 'পিকা', en: 'Pica' },
+                    { id: 'rumination', bn: 'রুমিনেশন ডিসঅর্ডার', en: 'Rumination Disorder' },
+                    { id: 'arfid', bn: 'ARFID — খাদ্য গ্রহণে বিতৃষ্ণা', en: 'Avoidant/Restrictive Food Intake Disorder (ARFID)' },
+                    { id: 'anorexia-nervosa', bn: 'অ্যানোরেক্সিয়া নার্ভোসা', en: 'Anorexia Nervosa' },
+                    { id: 'bulimia-nervosa', bn: 'বুলিমিয়া নার্ভোসা', en: 'Bulimia Nervosa' },
+                    { id: 'binge-eating', bn: 'বিঞ্জ-ইটিং ডিসঅর্ডার', en: 'Binge-Eating Disorder' },
+                ]
+            },
+            'sleep-disorders': {
+                bn: 'ঘুম-জাগরণজনিত ব্যাধি',
+                en: 'Sleep-Wake Disorders',
+                desc: 'ঘুমের গুণমান, সময়কাল ও ছন্দের ব্যাঘাত',
+                disorders: [
+                    { id: 'insomnia', bn: 'ইনসমনিয়া ডিসঅর্ডার', en: 'Insomnia Disorder' },
+                    { id: 'hypersomnolence', bn: 'হাইপারসোমনোলেন্স ডিসঅর্ডার', en: 'Hypersomnolence Disorder' },
+                    { id: 'narcolepsy', bn: 'ন্যার্কোলেপ্সি', en: 'Narcolepsy' },
+                    { id: 'circadian-rhythm', bn: 'সার্কাডিয়ান রিদম স্লিপ-ওয়েক ডিসঅর্ডার', en: 'Circadian Rhythm Sleep-Wake Disorders' },
+                    { id: 'nightmare-disorder', bn: 'নাইটমেয়ার ডিসঅর্ডার', en: 'Nightmare Disorder' },
+                    { id: 'rem-sleep', bn: 'REM স্লিপ বিহেভিয়ার ডিসঅর্ডার', en: 'REM Sleep Behavior Disorder' },
+                    { id: 'restless-legs', bn: 'রেস্টলেস লেগস সিন্ড্রোম', en: 'Restless Legs Syndrome' },
+                ]
+            },
+            'personality-disorders': {
+                bn: 'ব্যক্তিত্বজনিত ব্যাধি',
+                en: 'Personality Disorders',
+                desc: 'দীর্ঘস্থায়ী ও অনমনীয় ব্যক্তিত্ব বৈশিষ্ট্যের ব্যাধিসমূহ',
+                disorders: [
+                    { id: 'paranoid-pd', bn: 'প্যারানয়েড পার্সোনালিটি ডিসঅর্ডার', en: 'Paranoid Personality Disorder' },
+                    { id: 'schizoid-pd', bn: 'স্কিজয়েড পার্সোনালিটি ডিসঅর্ডার', en: 'Schizoid Personality Disorder' },
+                    { id: 'antisocial-pd', bn: 'অ্যান্টিসোশ্যাল পার্সোনালিটি ডিসঅর্ডার (ASPD)', en: 'Antisocial Personality Disorder' },
+                    { id: 'borderline-pd', bn: 'বর্ডারলাইন পার্সোনালিটি ডিসঅর্ডার (BPD)', en: 'Borderline Personality Disorder' },
+                    { id: 'histrionic-pd', bn: 'হিস্ট্রিওনিক পার্সোনালিটি ডিসঅর্ডার', en: 'Histrionic Personality Disorder' },
+                    { id: 'narcissistic-pd', bn: 'নার্সিসিস্টিক পার্সোনালিটি ডিসঅর্ডার (NPD)', en: 'Narcissistic Personality Disorder' },
+                    { id: 'avoidant-pd', bn: 'অ্যাভয়েডেন্ট পার্সোনালিটি ডিসঅর্ডার', en: 'Avoidant Personality Disorder' },
+                    { id: 'dependent-pd', bn: 'ডিপেন্ডেন্ট পার্সোনালিটি ডিসঅর্ডার', en: 'Dependent Personality Disorder' },
+                    { id: 'ocpd', bn: 'অবসেসিভ-কম্পালসিভ পার্সোনালিটি ডিসঅর্ডার (OCPD)', en: 'OC Personality Disorder (OCPD)' },
+                ]
+            },
+            'neurocognitive-disorders': {
+                bn: 'নিউরোকগনিটিভ ডিসঅর্ডার',
+                en: 'Neurocognitive Disorders',
+                desc: 'জ্ঞানীয় কার্যকারিতার অবনতি ও স্মৃতিভ্রংশ সংক্রান্ত ব্যাধি',
+                disorders: [
+                    { id: 'delirium', bn: 'ডেলিরিয়াম', en: 'Delirium' },
+                    { id: 'alzheimers-ncd', bn: "আলঝেইমার'স রোগজনিত নিউরোকগনিটিভ ডিসঅর্ডার", en: "NCD Due to Alzheimer's Disease" },
+                    { id: 'vascular-ncd', bn: 'ভাস্কুলার নিউরোকগনিটিভ ডিসঅর্ডার', en: 'Vascular Neurocognitive Disorder' },
+                    { id: 'lewy-body-ncd', bn: 'লিউই বডি নিউরোকগনিটিভ ডিসঅর্ডার', en: 'NCD with Lewy Bodies' },
+                    { id: 'frontotemporal-ncd', bn: 'ফ্রন্টোটেম্পোরাল নিউরোকগনিটিভ ডিসঅর্ডার', en: 'Frontotemporal Neurocognitive Disorder' },
+                    { id: 'tbi-ncd', bn: 'ট্রমাটিক ব্রেইন ইনজুরি জনিত NCD', en: 'NCD Due to Traumatic Brain Injury' },
+                    { id: 'parkinsons-ncd', bn: "পার্কিনসন'স রোগজনিত NCD", en: "NCD Due to Parkinson's Disease" },
+                ]
+            }
+        };
+
+        const params = new URLSearchParams(window.location.search);
+        const catId = params.get('cat') || 'intellectual-disabilities';
+        const cat = DSM5[catId];
+
+        if (!cat) {
+            document.getElementById('cat-title').textContent = 'Category Not Found';
+        } else {
+            document.title = cat.bn + ' — DCPS Articles';
+            document.getElementById('breadcrumb-cat').textContent = cat.bn;
+            document.getElementById('cat-title').textContent = cat.bn;
+            document.getElementById('cat-desc').textContent = cat.desc;
+
+            const grid = document.getElementById('disorders-grid');
+            cat.disorders.forEach((d, i) => {
+                const card = document.createElement('div');
+                card.className = 'disorder-card';
+                card.innerHTML = `
+      <div class="disorder-card-header">
+        <h3>${d.bn}</h3>
+        <span class="disorder-num">${d.en}</span>
+      </div>
+      <div class="disorder-card-body">
+        <div class="content-type" onclick="openArticle('${catId}','${d.id}','neuro')">
+          <div class="ct-icon neuro">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1B4332" stroke-width="1.8">
+              <path d="M12 2c4 0 7 3 7 7v2c0 4-3 7-7 7s-7-3-7-7V9c0-4 3-7 7-7z"/>
+            </svg>
+          </div>
+          <div class="ct-label">
+            <strong>Neurological Causes</strong>
+            <span>Neurological Causes</span>
+          </div>
+          <span class="ct-arrow">›</span>
+        </div>
+        <div class="content-type" onclick="openArticle('{{ cat_id }}','${d.id}','psychological')">
+            <div class="ct-icon psych">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C97B5C" stroke-width="1.8">
+              <circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>
+             </svg>
+            </div>
+            <div class="ct-label">
+             <strong>Psychological Causes</strong>
+                <span>Psychological Causes</span>
+             </div>
+                 <span class="ct-arrow">›</span>
+        </div>
+        <div class="content-type" onclick="openArticle('${catId}','${d.id}','dsm5')">
+          <div class="ct-icon dsm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1B4332" stroke-width="1.8">
+              <rect x="4" y="4" width="16" height="16" rx="2"/>
+              <path d="M8 9h8M8 13h5"/>
+            </svg>
+          </div>
+          <div class="ct-label">
+            <strong>DSM-5 Diagnostic Criteria</strong>
+            <span>Diagnostic Criteria</span>
+          </div>
+          <span class="ct-arrow">›</span>
+        </div>
+      </div>
+    `;
+                grid.appendChild(card);
+            });
+        }
+
+        function openArticle(catId, disorderId, contentType) {
+  // স্ট্যাটিক ফাইলের বদলে ডিয়াঙ্গো ইউআরএল পাথে হিট করা হচ্ছে
+            window.open('/article/?cat=' + catId + '&disorder=' + disorderId + '&type=' + contentType, '_blank');
+}
+    </script>
+</body>
+
+
+
+
+{% endblock body %}
