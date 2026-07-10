@@ -1,5 +1,9 @@
 {% extends "master/base.html" %}
 
+{% block title %}
+  contact
+{% endblock title %}
+
 {% block body %}
 
 <!DOCTYPE html>
@@ -7,7 +11,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>যোগাযোগ | Dhaka College Psychology Society</title>
+<title>contact | Dhaka College Psychology Society</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Hind+Siliguri:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -59,8 +63,8 @@
 
   /* ---------- Hero ---------- */
   .hero{
-    background:var(--ink);
-    color:var(--paper);
+    background: #14532D;
+    color: #FFFFFF;
     padding:90px 6vw 100px;
     position:relative;
     overflow:hidden;
@@ -114,9 +118,9 @@
   .social-pill{
     font-family:'JetBrains Mono', monospace; font-size:11.5px;
     padding:8px 16px; border-radius:100px; border:1px solid var(--line);
-    color: var(--ink-soft); transition:all .2s;
+    color: white; transition:all .2s;
   }
-  .social-pill:hover{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .social-pill:hover{ background:var(--ink); color:green; border-color:var(--ink); }
 
   .map-embed{
     border-radius:12px; overflow:hidden; border:1px solid var(--line);
@@ -193,7 +197,7 @@
 
 <header>
   <div class="brand">
-    <div class="brand-mark">DCPS</div>
+    
     <div class="brand-name">Dhaka College Psychology Society
       <span>Content about Disorders · DCPS</span>
     </div>
